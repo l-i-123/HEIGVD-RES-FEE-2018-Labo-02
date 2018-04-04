@@ -92,6 +92,4 @@ public class RouletteV1ClientImpl implements IRouletteV1Client {
     return "1.0";
   }
 
-
-
 }
