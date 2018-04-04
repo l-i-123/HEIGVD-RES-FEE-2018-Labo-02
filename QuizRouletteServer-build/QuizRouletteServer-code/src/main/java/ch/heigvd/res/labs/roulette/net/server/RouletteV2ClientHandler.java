@@ -1,12 +1,7 @@
 package ch.heigvd.res.labs.roulette.net.server;
 
-import ch.heigvd.res.labs.roulette.data.EmptyStoreException;
-import ch.heigvd.res.labs.roulette.data.IStudentsStore;
-import ch.heigvd.res.labs.roulette.data.JsonObjectMapper;
-import ch.heigvd.res.labs.roulette.data.Student;
-import ch.heigvd.res.labs.roulette.net.protocol.InfoCommandResponse;
-import ch.heigvd.res.labs.roulette.net.protocol.RandomCommandResponse;
-import ch.heigvd.res.labs.roulette.net.protocol.RouletteV2Protocol;
+import ch.heigvd.res.labs.roulette.data.*;
+import ch.heigvd.res.labs.roulette.net.protocol.*;
 
 import java.io.*;
 import java.util.Arrays;
@@ -39,8 +34,10 @@ public class RouletteV2ClientHandler implements IClientHandler {
 
     String command;
     boolean done = false;
+    int commmandCounter = 0;
     while (!done && ((command = reader.readLine()) != null)) {
       LOG.log(Level.INFO, "COMMAND: {0}", command);
+      commmandCounter++;
       switch (command.toUpperCase()) {
         case RouletteV2Protocol.CMD_RANDOM:
           RandomCommandResponse rcResponse = new RandomCommandResponse();
@@ -61,17 +58,20 @@ public class RouletteV2ClientHandler implements IClientHandler {
           writer.flush();
           break;
         case RouletteV2Protocol.CMD_LOAD:
-          writer.println(RouletteV2Protocol.RESPONSE_LOAD_START);
-          writer.flush();
-          store.importData(reader);
-          writer.println(RouletteV2Protocol.RESPONSE_LOAD_DONE);
+            writer.println(RouletteV2Protocol.RESPONSE_LOAD_START);
+            writer.flush();
+            int nbData = store.importData(reader);
+
+          //writer.println(RouletteV2Protocol.RESPONSE_LOAD_DONE);
+          InfoCommandLoad responseLoad = new InfoCommandLoad("success", nbData);
+          writer.println(JsonObjectMapper.toJson(responseLoad));
           writer.flush();
           break;
         case RouletteV2Protocol.CMD_CLEAR:
           store.clear();
           break;
         case RouletteV2Protocol.CMD_LIST:
-          List<Student> studentList = store.listStudents();
+          StudentsList studentList = store.listStudents();
           if(studentList.size() == 0){
             writer.println("There is no student");
           }
@@ -82,6 +82,9 @@ public class RouletteV2ClientHandler implements IClientHandler {
           break;
         case RouletteV2Protocol.CMD_BYE:
           done = true;
+          InfoCommandBye responseBye = new InfoCommandBye("success", commmandCounter);
+          writer.println(JsonObjectMapper.toJson(responseBye));
+          writer.flush();
           break;
         default:
           writer.println("Huh? please use HELP if you don't know what commands are available.");

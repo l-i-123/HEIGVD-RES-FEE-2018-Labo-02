@@ -10,6 +10,8 @@ import org.junit.rules.ExpectedException;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This class contains automated tests to validate the client and the server
@@ -56,6 +58,14 @@ public class RouletteV2WasadigiTest {
     assertEquals(0, client.getNumberOfStudents());
   }
 
-
+  @Test
+  @TestAuthor(githubId = "l-i-123")
+  public void itShouldBePossibleForARouletteClientToConnectToARouletteServer() throws Exception {
+    int port = roulettePair.getServer().getPort();
+    IRouletteV1Client client = new RouletteV2ClientImpl();
+    assertFalse(client.isConnected());
+    client.connect("localhost", port);
+    assertTrue(client.isConnected());
+  }
 
 }

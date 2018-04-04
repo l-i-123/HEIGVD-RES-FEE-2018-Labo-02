@@ -4,7 +4,6 @@ import ch.heigvd.res.labs.roulette.net.protocol.RouletteV1Protocol;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +18,7 @@ public class StudentsStoreImpl implements IStudentsStore {
 
   static final Logger LOG = Logger.getLogger(StudentsStoreImpl.class.getName());
 
-  private final List<Student> students = new LinkedList<>();
+  private final StudentsList students = new StudentsList();
 
   @Override
   public synchronized void clear() {
@@ -32,9 +31,8 @@ public class StudentsStoreImpl implements IStudentsStore {
   }
 
   @Override
-  public synchronized List<Student> listStudents() {
-    List<Student> result = new LinkedList<>(students);
-    return result;
+  public synchronized StudentsList listStudents() {
+    return students;
   }
 
   @Override
@@ -52,10 +50,11 @@ public class StudentsStoreImpl implements IStudentsStore {
   }
 
   @Override
-  public void importData(BufferedReader reader) throws IOException {
+  public int importData(BufferedReader reader) throws IOException {
     LOG.log(Level.INFO, "Importing data from input reader of type {0}", reader.getClass());
     List<Student> studentsToAdd = new ArrayList<>();
     String record;
+    int compteur = 0;
     boolean endReached = false;
     while (!endReached && (record = reader.readLine()) != null) {
       if (record.equalsIgnoreCase(RouletteV1Protocol.CMD_LOAD_ENDOFDATA_MARKER)) {
@@ -64,12 +63,14 @@ public class StudentsStoreImpl implements IStudentsStore {
       } else {
         LOG.log(Level.INFO, "Adding student {0} to the store.", record);
         studentsToAdd.add(new Student(record));
+        compteur++;
       }
     }
     synchronized (this) {
       students.addAll(studentsToAdd);
     }
     LOG.log(Level.INFO, "There are now {0} students in the store.", getNumberOfStudents());
+    return compteur;
   }
 
 }
