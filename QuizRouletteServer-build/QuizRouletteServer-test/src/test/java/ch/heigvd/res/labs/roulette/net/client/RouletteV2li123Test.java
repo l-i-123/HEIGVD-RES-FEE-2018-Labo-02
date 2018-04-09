@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Olivier Liechti
  */
-public class RouletteV2WasadigiTest {
+public class RouletteV2li123Test {
 
   @Rule
   public ExpectedException exception = ExpectedException.none();
