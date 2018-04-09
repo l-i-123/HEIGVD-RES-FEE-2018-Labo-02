@@ -30,25 +30,21 @@ public class RouletteV1ClientImpl implements IRouletteV1Client {
 
   @Override
   public void connect(String server, int port) throws IOException {
-    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     connection = true;
   }
 
   @Override
   public void disconnect() throws IOException {
-    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     connection = false;
   }
 
   @Override
   public boolean isConnected() {
-    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     return connection;
   }
 
   @Override
   public void loadStudent(String fullname) throws IOException {
-    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     Student newStudent = new Student();
     newStudent.setFullname(fullname);
     studentList.add(newStudent);
@@ -56,14 +52,11 @@ public class RouletteV1ClientImpl implements IRouletteV1Client {
 
   @Override
   public void loadStudents(List<Student> students) throws IOException {
-    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     studentList.add((Student) students);
   }
 
   @Override
   public Student pickRandomStudent() throws EmptyStoreException, IOException {
-    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
     if(studentList.size() == 0){
       throw new EmptyStoreException();
     }
@@ -82,14 +75,12 @@ public class RouletteV1ClientImpl implements IRouletteV1Client {
 
   @Override
   public int getNumberOfStudents() throws IOException {
-    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     return studentList.size();
   }
 
   @Override
   public String getProtocolVersion() throws IOException {
-    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    return "1.0";
+    return RouletteV1Protocol.VERSION;
   }
 
 }
