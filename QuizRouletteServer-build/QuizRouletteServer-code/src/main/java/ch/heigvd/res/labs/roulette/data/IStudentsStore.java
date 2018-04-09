@@ -29,7 +29,7 @@ public interface IStudentsStore {
    *
    * @return the list of students int the data store
    */
-  public List<Student> listStudents();
+  public StudentsList listStudents();
 
   /**
    * This method is used to randomly select one student in the data store
@@ -54,6 +54,6 @@ public interface IStudentsStore {
    * @param reader where we read student data from
    * @throws IOException
    */
-  public void importData(BufferedReader reader) throws IOException;
+  public int importData(BufferedReader reader) throws IOException;
 
 }
