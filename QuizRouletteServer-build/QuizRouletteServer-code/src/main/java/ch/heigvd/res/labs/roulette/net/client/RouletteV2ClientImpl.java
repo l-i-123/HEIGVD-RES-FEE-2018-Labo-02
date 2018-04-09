@@ -16,18 +16,16 @@ public class RouletteV2ClientImpl extends RouletteV1ClientImpl implements IRoule
 
   @Override
   public void clearDataStore() throws IOException {
-    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    super.studentList.clear();
+    studentList.clear();
   }
 
   @Override
   public List<Student> listStudents() throws IOException {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    return studentList;
   }
 
   @Override
   public String getProtocolVersion() throws IOException {
-    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     return "2.0";
   }
   
