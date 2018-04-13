@@ -5,6 +5,7 @@ import ch.heigvd.res.labs.roulette.data.Student;
 import ch.heigvd.res.labs.roulette.data.StudentsList;
 import ch.heigvd.res.labs.roulette.net.protocol.RouletteV2Protocol;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class RouletteV2ClientImpl extends RouletteV1ClientImpl implements IRoule
 
   @Override
   public List<Student> listStudents() throws IOException {
-    return studentList;
+    return new ArrayList<>(studentList);
   }
 
   @Override
