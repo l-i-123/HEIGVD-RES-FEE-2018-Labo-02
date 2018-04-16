@@ -30,7 +30,9 @@ public class StudentsList {
   }
 
   public void clear(){
-    students.clear();
+    if(students.size() > 0){
+      students.clear();
+    }
   }
 
   public void add(Student student){
