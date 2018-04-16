@@ -1,5 +1,7 @@
 package ch.heigvd.res.labs.roulette.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.swing.text.html.HTMLDocument;
 import java.util.*;
 
@@ -39,6 +41,7 @@ public class StudentsList {
     students.add(student);
   }
 
+  @JsonIgnore
   public boolean isEmpty(){
     if(students.size() == 0){
       return true;
