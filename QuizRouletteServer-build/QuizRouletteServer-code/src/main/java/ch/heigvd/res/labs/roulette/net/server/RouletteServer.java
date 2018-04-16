@@ -2,6 +2,8 @@ package ch.heigvd.res.labs.roulette.net.server;
 
 import ch.heigvd.res.labs.roulette.data.IStudentsStore;
 import ch.heigvd.res.labs.roulette.data.StudentsStoreImpl;
+import ch.heigvd.res.labs.roulette.net.client.RouletteV1ClientImpl;
+import ch.heigvd.res.labs.roulette.net.client.RouletteV2ClientImpl;
 import ch.heigvd.res.labs.roulette.net.protocol.RouletteV1Protocol;
 import ch.heigvd.res.labs.roulette.net.protocol.RouletteV2Protocol;
 import java.io.IOException;
@@ -80,7 +82,12 @@ public class RouletteServer {
    * ephemeral port
    */
   public RouletteServer(String protocolVersion) {
-    this.listenPort = -1;
+    if (RouletteV1Protocol.VERSION.equals(protocolVersion)) {
+      this.listenPort = RouletteV1Protocol.DEFAULT_PORT;
+    } else if (RouletteV2Protocol.VERSION.equals(protocolVersion)){
+      this.listenPort = RouletteV2Protocol.DEFAULT_PORT;
+    }
+
     this.protocolVersion = protocolVersion;
   }
 

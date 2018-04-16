@@ -52,7 +52,8 @@ public class RouletteV1ClientImpl implements IRouletteV1Client {
 
   @Override
   public void loadStudents(List<Student> students) throws IOException {
-    studentList.add((Student) students);
+    studentList.addAll(students);
+    System.out.println("ok");
   }
 
   @Override
